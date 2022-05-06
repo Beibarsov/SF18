@@ -21,14 +21,39 @@ namespace SF18
 
         public async Task GetInfoAboutVideo()
         {
+            string url = Config.Url;
+            Video video;
+            try
+            {
+                video = await youtubeClient.Videos.GetAsync(url);
+                Console.WriteLine(video.Title);
+                Console.WriteLine(video.Description);
+                Console.WriteLine("Вывод информации завершен");
 
-            Video video = await youtubeClient.Videos.GetAsync("https://www.youtube.com/watch?v=R_dyIBpZ1lw");
-            Console.WriteLine(video.Title);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Что-то пошло не так. Скорее всего, видео по указанной ссылке не существует");
+            }
         }
 
         public async Task DownloadVideo()
         {
-            await youtubeClient.Videos.DownloadAsync("https://www.youtube.com/watch?v=R_dyIBpZ1lw", "video.mp4", builder => builder.SetPreset(ConversionPreset.UltraFast));
+            string url = Config.Url;
+            try
+            {
+                Video video = await youtubeClient.Videos.GetAsync(url);
+                Console.WriteLine(video.Title);
+                Console.WriteLine(video.Description);
+                Console.WriteLine("Начинается загрузка видео. Это может занять некоторое время");
+                await youtubeClient.Videos.DownloadAsync(url, "video.mp4", builder => builder.SetPreset(ConversionPreset.UltraFast));
+                Console.WriteLine("Скачивание видео завершено");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Что-то пошло не так. Скорее всего, видео по указанной ссылке не существует");
+            }
+
         }
 
     }
