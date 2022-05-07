@@ -17,6 +17,7 @@ namespace SF18
 
         public override async Task Run()
         {
+            await receiver.GetInfoAboutVideo();
             await receiver.DownloadVideo();
         }
     }

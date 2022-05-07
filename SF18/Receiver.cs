@@ -42,9 +42,6 @@ namespace SF18
             string url = Config.Url;
             try
             {
-                Video video = await youtubeClient.Videos.GetAsync(url);
-                Console.WriteLine(video.Title);
-                Console.WriteLine(video.Description);
                 Console.WriteLine("Начинается загрузка видео. Это может занять некоторое время");
                 await youtubeClient.Videos.DownloadAsync(url, "video.mp4", builder => builder.SetPreset(ConversionPreset.UltraFast));
                 Console.WriteLine("Скачивание видео завершено");
